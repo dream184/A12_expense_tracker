@@ -86,12 +86,19 @@ app.get('/', (req, res) => {
     .lean()
     .sort({ _id: 'desc' })
     .then(record => {
-      res.render('index', { record })
+      const isRecordExist = Boolean(record.length)
+      if (!isRecordExist) {
+        return res.render('index')
+      }
+      Record.aggregate([{ $group: { _id: null, amount: { $sum: "$amount" } } }])
+        .then(records => {
+          const totalAmount = records[0].amount
+          res.render('index', { record, totalAmount })
+        })
+        .catch(error => console.log(error))
     })
     .catch(error => console.log(error))
 })
-
-
 
 app.listen(port, () => {
   console.log(`Express is listening on http://localhost:${port}`)
