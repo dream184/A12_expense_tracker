@@ -21,26 +21,48 @@
   </div>
 </div>
 
+{{#each record}}
 <div class="records-container d-flex justify-content-center">
   <div class="record d-flex w-75">
-      <div class="record-type d-flex w-100">
-        <div class="logo d-flex justify-content-center align-items-center mx-2">
-          <i class="fas fa-home fs-1"></i>
-        </div>
-        <div class="type-date w-50">
-          <span class="d-block">午餐</span>
-          <span class="d-block">2021/11/9</span>
-        </div> 
-        
-        <div class="record-change-delete d-flex w-50">
-          <div class="mx-2">60</div>
-          <div class="mx-2">修改</div>
-          <div class="mx-2">刪除</div>
-        </div>        
-      </div>    
+    <div class="record-type d-flex w-100">
+      <div class="logo d-flex justify-content-center align-items-center mx-2">
+        <i class="fas fa-home fs-1"></i>
+      </div>
+      <div class="type-date w-50">
+        <span class="d-block">{{this.name}}</span>
+        <span class="d-block">{{formatDate this.date}}</span>
+      </div>
+
+      <div class="record-change-delete d-flex w-50">
+        <div class="mx-2">{{this.amount}}</div>
+        <div class="mx-2">修改</div>
+        <div class="mx-2">刪除</div>
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}
+
+<div class="records-container d-flex justify-content-center">
+  <div class="record d-flex w-75">
+    <div class="record-type d-flex w-100">
+      <div class="logo d-flex justify-content-center align-items-center mx-2">
+        <i class="fas fa-home fs-1"></i>
+      </div>
+      <div class="type-date w-50">
+        <span class="d-block">午餐</span>
+        <span class="d-block">2021/11/9</span>
+      </div>
+
+      <div class="record-change-delete d-flex w-50">
+        <div class="mx-2">60</div>
+        <div class="mx-2">修改</div>
+        <div class="mx-2">刪除</div>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="text-center">
-  <a href="/" class="btn btn-danger my-3">新增支出</a>
+  <a href="/records/new" class="btn btn-danger my-3">新增支出</a>
 </div>

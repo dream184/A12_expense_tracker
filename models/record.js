@@ -13,8 +13,8 @@ const recordSchema = new Schema({
     type: String,
     required: true
   },
-  expense: {
-    type: amount,
+  amount: {
+    type: Number,
     required: true
   }
 })

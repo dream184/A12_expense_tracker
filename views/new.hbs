@@ -1,12 +1,12 @@
 <div class="dropdown my-4 d-flex justify-content-center">
-  <form>
+  <form action="/records" method="POST">
     <div class="mb-3">
       <label for="name" class="form-label">名稱:</label>
-      <input type="text" class="form-control" id="name">
+      <input type="text" class="form-control" id="name" name="name">
     </div>
     <div class="mb-3">
-      <label for="date" class="form-label">日期:</label>
-      <input type="date" class="form-control" id="date">
+      <label for="date" class="form-label" >日期:</label>
+      <input type="date" class="form-control" id="date" name="date">
     </div>
     <div class="mb-3">
       <label for="category" class="form-label">類別:</label>
@@ -21,7 +21,7 @@
     </div>
     <div class="mb-3">
       <label for="amount" class="form-label">金額:</label>
-      <input type="number" class="form-control" id="amount">
+      <input type="number" class="form-control" name="amount" id="amount">
     </div>
     <button type="submit" class="btn btn-danger">新增支出</button>
   </form>
