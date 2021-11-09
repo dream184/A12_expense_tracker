@@ -1,27 +1,26 @@
 <div class="dropdown my-4 d-flex justify-content-center">
-  <form>
+  <form action="/records/{{record._id}}?_method=PUT" method="POST">
     <div class="mb-3">
       <label for="name" class="form-label">名稱:</label>
-      <input type="text" class="form-control" id="name">
+      <input type="text" class="form-control" id="name" name="name" value="{{record.name}}">
     </div>
     <div class="mb-3">
       <label for="date" class="form-label">日期:</label>
-      <input type="date" class="form-control" id="date">
+      <input type="date" class="form-control" id="date" name="date" value="{{formatDate2 record.date}}">
     </div>
     <div class="mb-3">
       <label for="category" class="form-label">類別:</label>
-      <select name="category" class="form-control" id="category">
-        <option value="home-related" disabled selected>類別</option>
-        <option value="home-related">家居物業</option>
-        <option value="transportation">交通出行</option>
-        <option value="entertainment">休閒娛樂</option>
-        <option value="food">餐飲食品</option>
-        <option value="other">其他</option>
+      <select name="category" class="form-control" id="category" name="category">
+        <option value="home-related" {{#if (isCategorySelected category "home-related")}}selected{{/if}}>家居物業</option>
+        <option value="transportation" {{#if (isCategorySelected category "transportation" )}}selected{{/if}}>交通出行</option>
+        <option value="entertainment" {{#if (isCategorySelected category "entertainment" )}}selected{{/if}}>休閒娛樂</option>
+        <option value="food" {{#if (isCategorySelected category "food" )}}selected{{/if}}>餐飲食品</option>
+        <option value="other" {{#if (isCategorySelected category "other" )}}selected{{/if}}>其他</option>
       </select>
     </div>
     <div class="mb-3">
       <label for="amount" class="form-label">金額:</label>
-      <input type="number" class="form-control" id="amount">
+      <input type="number" class="form-control" id="amount" name="amount" value="{{record.amount}}">
     </div>
     <button type="submit" class="btn btn-danger">送出</button>
   </form>

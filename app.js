@@ -9,9 +9,17 @@ require('./config/mongoose')
 
 const Record = require('./models/record')
 
-app.engine('hbs', exphbs({ defaultLayout: 'main', extname: 'hbs', helpers: {
+app.engine('hbs', exphbs({
+  defaultLayout: 'main', extname: 'hbs',
+  helpers: {
     formatDate: function (date) {
-      return dayjs(date).format('YYYY//MM/DD')
+      return dayjs(date).format('YYYY/MM/DD')
+    },
+    formatDate2: function (date) {
+      return dayjs(date).format('YYYY-MM-DD')
+    },
+    isCategorySelected: function (selectedcategory, category) {
+      return (selectedcategory === category)
     }
   }
 }))
@@ -22,14 +30,52 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
 app.post('/records', (req, res) => {
-  console.log(req.body)
+  const record = req.body
+  Record.create(record)
+    .then(() => res.redirect('/'))
+    .catch(error => console.error(error))
+})
+
+app.get('/records/:id/edit', (req, res) => {
+  const id = req.params.id
+  
+  Record.findById(id)
+    .lean()
+    .then((record) => {
+      const category = record.category
+      res.render('edit', { record, category })
+    })
+    .catch(error => console.log(error))
+})
+
+app.put('/records/:id', (req, res) => {
+  const id = req.params.id
+  const { name, date, category, amount } = req.body
+  Record.findById(id)
+    .then(record => {
+      console.log(record.name)
+      console.log(req.body)
+      record.name = name
+      record.date = date
+      record.category = category
+      record.amount = amount
+      return record.save()
+    })
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
+app.delete('/records/:id', (req, res) => {
+  const id = req.params.id
+  Record.findById(id)
+    .then(record => record.remove())
+    .then(res.redirect('/'))
+    .catch(error => console.log(error))
 })
 
 app.get('/records/new', (req, res) => {
   res.render('new')
 })
-
-
 
 app.get('/records/edit', (req, res) => {
   res.render('edit')
