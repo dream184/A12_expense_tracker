@@ -10,7 +10,8 @@ const routes = require('./routes')
 require('./config/mongoose')
 
 app.engine('hbs', exphbs({
-  defaultLayout: 'main', extname: 'hbs',
+  defaultLayout: 'main',
+  extname: 'hbs',
   helpers: {
     formatDate: function (date) {
       return dayjs(date).format('YYYY/MM/DD')

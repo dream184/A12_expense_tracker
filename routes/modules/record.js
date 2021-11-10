@@ -63,7 +63,7 @@ router.get('/:category', (req, res) => {
         return res.render('index', { totalAmount })
       }
       Record.aggregate([{ $match: { category: category } },
-        { $group: { _id: null, amount: { $sum: "$amount" } } }
+        { $group: { _id: null, amount: { $sum: '$amount' } } }
       ])
         .then(records => {
           const totalAmount = records[0].amount

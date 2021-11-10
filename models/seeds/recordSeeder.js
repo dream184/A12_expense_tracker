@@ -30,7 +30,7 @@ const records = [
     name: '交通費',
     category: 'transportation',
     date: '2021-11-9',
-    amount:' 60'
+    amount: ' 60'
   }
 ]
 

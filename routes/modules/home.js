@@ -10,10 +10,10 @@ router.get('/', (req, res) => {
       const isRecordExist = Boolean(record.length)
       if (!isRecordExist) {
         return res.render('index')
-      }     
-      Record.aggregate([{ $group: { _id: null, amount: { $sum: "$amount" } } }])
+      }
+      Record.aggregate([{ $group: { _id: null, amount: { $sum: '$amount' } } }])
         .then(records => {
-          const totalAmount = records[0].amount    
+          const totalAmount = records[0].amount
           res.render('index', { record, totalAmount })
         })
         .catch(error => console.log(error))
