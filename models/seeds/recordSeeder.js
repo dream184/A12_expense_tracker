@@ -36,8 +36,9 @@ const records = [
 
 db.once('open', () => {
   console.log('mongodb connected!')
-  for (let i = 0; i < records.length; i++) {
-    Record.create(records[i])
-  }
+  Record.insertMany(records)
+    .then(() => {
+      return db.close()
+    })
   console.log('added restaurants to db')
 })
