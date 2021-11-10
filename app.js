@@ -53,8 +53,6 @@ app.put('/records/:id', (req, res) => {
   const { name, date, category, amount } = req.body
   Record.findById(id)
     .then(record => {
-      console.log(record.name)
-      console.log(req.body)
       record.name = name
       record.date = date
       record.category = category
@@ -89,10 +87,10 @@ app.get('/', (req, res) => {
       const isRecordExist = Boolean(record.length)
       if (!isRecordExist) {
         return res.render('index')
-      }
+      }     
       Record.aggregate([{ $group: { _id: null, amount: { $sum: "$amount" } } }])
         .then(records => {
-          const totalAmount = records[0].amount
+          const totalAmount = records[0].amount    
           res.render('index', { record, totalAmount })
         })
         .catch(error => console.log(error))
