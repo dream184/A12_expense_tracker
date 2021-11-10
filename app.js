@@ -38,7 +38,6 @@ app.post('/records', (req, res) => {
 
 app.get('/records/:id/edit', (req, res) => {
   const id = req.params.id
-  
   Record.findById(id)
     .lean()
     .then((record) => {
@@ -77,6 +76,29 @@ app.get('/records/new', (req, res) => {
 
 app.get('/records/edit', (req, res) => {
   res.render('edit')
+})
+
+app.get('/records/:category', (req, res) => {
+  const category = req.params.category
+  Record.find({ category: category })
+    .lean()
+    .sort({ _id: 'desc' })
+    .then(record => {
+      const isRecordExist = Boolean(record.length)
+      if (!isRecordExist) {
+        const totalAmount = 0
+        return res.render('index', { totalAmount })
+      }
+      Record.aggregate([{ $match: { category: category } },
+        { $group: { _id: null, amount: { $sum: "$amount" } } }
+      ])
+        .then(records => {
+          const totalAmount = records[0].amount
+          res.render('index', { record, totalAmount })
+        })
+        .catch(error => console.log(error))
+    })
+    .catch(error => console.log(error))
 })
 
 app.get('/', (req, res) => {
