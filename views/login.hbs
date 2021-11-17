@@ -3,6 +3,7 @@
     <div class="col-6 mx-auto mt-4">
       <form action="/users/login" method="post">
         <h3>Acount Login</h3>
+        {{>message}}
         <div class="mb-3">
           <label for="email" class="form-label">Email address</label>
           <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
