@@ -3,6 +3,7 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const dayjs = require('dayjs')
+const session = require('express-session')
 const app = express()
 const port = 3000
 const routes = require('./routes')
@@ -26,6 +27,11 @@ app.engine('hbs', exphbs({
 }))
 app.set('view engine', 'hbs')
 
+app.use(session({
+  secret: 'codingeveryday',
+  resave: false,
+  saveUninitialized: true
+}))
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))

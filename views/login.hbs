@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row">
+    <div class="col-6 mx-auto mt-4">
+      <form action="/users/login" method="post">
+        <h3>Acount Login</h3>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+            placeholder="Email" required>
+          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="password" required>
+        </div>
+        {{#if error}}
+        <div class="alert alert-danger" role="alert">
+          {{error}}
+        </div>
+        {{/if}}
+        <button type="submit" class="btn btn-primary">log in</button>
+        <a href="/users/register" class="btn btn-success">register</a>
+        <a href="/auth/facebook" class="btn btn-info">Facebook Login</a>
+      </form>
+      </form>
+    </div>
+  </div>
+</div>

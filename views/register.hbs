@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <div class="col-6 mx-auto mt-4">
+      <form action="/users/register" method="post">
+        <h3>Acount Sign Up</h3>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+            placeholder="Email" value="{{email}}" required>
+          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="password"
+            value="{{password}}" required>
+        </div>
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label">confirmPassword</label>
+          <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+            placeholder="confirmPassword" value="{{confirmPassword}}" required>
+        </div>
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{name}}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Confirm</button>
+        <a href="/auth/facebook" class="btn btn-info">Facebook Login</a>
+        <a href="/" class="btn btn-danger">back</a>
+      </form>
+    </div>
+  </div>
+</div>
