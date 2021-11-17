@@ -22,32 +22,29 @@
 </div>
 
 {{#each record}}
-<div class="records-container d-flex justify-content-center">
-  <div class="record d-flex w-75">
-    <div class="record-type d-flex w-100">
-      <div class="logo d-flex justify-content-center align-items-center mx-2">
-        {{#if (isCategorySelected this.category "home-related")}}<i class="fas fa-home fs-1"></i>{{/if}}
-        {{#if (isCategorySelected this.category "transportation")}}<i class="fas fa-shuttle-van fs-1"></i></i>{{/if}}
-        {{#if (isCategorySelected this.category "entertainment")}}<i class="fas fa-grin-beam fs-1"></i>{{/if}}
-        {{#if (isCategorySelected this.category "food")}}<i class="fas fa-utensils fs-1"></i>{{/if}}
-        {{#if (isCategorySelected this.category "other")}}<i class="fas fa-pen fs-1"></i>{{/if}}
+<div class="container">
+  <div class="row text-center bg-light mb-2">
+    <div class="col-2">
+    {{#if (isCategorySelected this.category "home-related")}}<i class="fas fa-home fs-1"></i>{{/if}}
+    {{#if (isCategorySelected this.category "transportation")}}<i class="fas fa-shuttle-van fs-1"></i></i>{{/if}}
+    {{#if (isCategorySelected this.category "entertainment")}}<i class="fas fa-grin-beam fs-1"></i>{{/if}}
+    {{#if (isCategorySelected this.category "food")}}<i class="fas fa-utensils fs-1"></i>{{/if}}
+    {{#if (isCategorySelected this.category "other")}}<i class="fas fa-pen fs-1"></i>{{/if}}
+    </div>
+    <div class="col-4">
+      <span class="d-block">{{this.name}}</span>
+      <span class="d-block">{{formatDate this.date}}</span>
+    </div>
+    <div class="col-2">
+      {{this.amount}}
       </div>
-      <div class="type-date w-50">
-        <span class="d-block">{{this.name}}</span>
-        <span class="d-block">{{formatDate this.date}}</span>
-      </div>
-
-      <div class="record-change-delete d-flex w-50">
-        <div class="mx-2">{{this.amount}}</div>
-        <div class="mx-2">
-          <a href="/records/{{this._id}}/edit">修改</a>
-        </div>
-        <div class="mx-2">
-          <form action="/records/{{this._id}}?_method=DELETE" method="post">
-            <button type="submit">刪除</button>
-          </form>
-        </div>
-      </div>
+    <div class="col-2">
+      <a href="/records/{{this._id}}/edit" class="btn btn-primary">修改</a>
+    </div>
+    <div class="col-2">
+      <form action="/records/{{this._id}}?_method=DELETE" method="post">
+        <button type="submit" class="btn btn-danger">刪除</button>
+      </form>
     </div>
   </div>
 </div>
