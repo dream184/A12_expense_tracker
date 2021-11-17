@@ -15,7 +15,12 @@
   <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">家庭記帳本</a>
-    </div>
+      {{#if isAuthenticated}}
+      <a href="/users/logout" class="btn btn-info" >登出</a>
+      {{else}}
+      <a href="/users/login" class="btn btn-primary">登入</a>
+      {{/if}}
+    </div>  
   </nav>
   {{{body}}}
   
