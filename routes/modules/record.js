@@ -56,7 +56,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const id = req.params.id
   const userId = res.locals.user._id
-  Record.findOne({ id, userId })
+  Record.findOne({ _id: id, userId })
     .then(record => record.remove())
     .then(res.redirect('/'))
     .catch(error => console.log(error))
@@ -87,6 +87,7 @@ router.get('/:category', (req, res) => {
       const userId = res.locals.user._id
       Record.find({ userId, categoryId })
         .lean()
+        .populate('categoryId')
         .sort({ _id: 'desc' })
         .then(record => {
           const isRecordExist = Boolean(record.length)
