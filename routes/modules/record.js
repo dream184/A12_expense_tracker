@@ -17,12 +17,10 @@ router.post('/', (req, res) => {
 router.get('/:id/edit', (req, res) => {
   const id = req.params.id
   const userId = res.locals.user._id
-  Record.findOne({ id, userId})
+  Record.findOne({ _id: id, userId})
     .lean()
     .populate('categoryId')
     .then((record) => {
-      res.locals.recordCategory = record.categoryId
-      console.log(res.locals)
       Category.find()
         .lean()
         .then((categories) => {
@@ -31,6 +29,7 @@ router.get('/:id/edit', (req, res) => {
               category.isSelected = true
             }
           })
+          console.log(record)
           res.render('edit', { record, categories })
         })
         .catch(error => console.log(error))
@@ -73,27 +72,39 @@ router.get('/new', (req, res) => {
 })
 
 router.get('/:category', (req, res) => {
-  const category = req.params.category
-  const userId = res.locals.user._id
-  Record.find({ userId, category })
+  const type = req.params.category
+  const categoryNumber = {
+    'home-related': 1,
+    'transportation': 2,
+    'entertainment': 3,
+    'food': 4,
+    'other': 5
+  }
+  Category.findOne({ categoryId: categoryNumber[type] })
     .lean()
-    .sort({ _id: 'desc' })
-    .then(record => {
-      const isRecordExist = Boolean(record.length)
-      if (!isRecordExist) {
-        const totalAmount = 0
-        return res.render('index', { totalAmount })
-      }
-      Record.aggregate([{ $match: { category: category } },
-        { $group: { _id: null, amount: { $sum: '$amount' } } }
-      ])
-        .then(records => {
-          const totalAmount = records[0].amount
-          res.render('index', { record, totalAmount })
+    .then(category => {
+      const categoryId = category._id
+      const userId = res.locals.user._id
+      Record.find({ userId, categoryId })
+        .lean()
+        .sort({ _id: 'desc' })
+        .then(record => {
+          const isRecordExist = Boolean(record.length)
+          if (!isRecordExist) {
+            const totalAmount = 0
+            return res.render('index', { totalAmount })
+          }
+          Record.aggregate([{ $match: { categoryId: categoryId } },
+            { $group: { _id: null, amount: { $sum: '$amount' } } }
+          ])
+            .then(records => {
+              const totalAmount = records[0].amount
+              res.render('index', { record, totalAmount })
+            })
+            .catch(error => console.log(error))
         })
         .catch(error => console.log(error))
-    })
-    .catch(error => console.log(error))
+    }) 
 })
 
 module.exports = router
