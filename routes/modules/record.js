@@ -57,7 +57,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const id = req.params.id
   const userId = res.locals.user._id
-  Record.findById({ id, userId })
+  Record.findOne({ id, userId })
     .then(record => record.remove())
     .then(res.redirect('/'))
     .catch(error => console.log(error))
