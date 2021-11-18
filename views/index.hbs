@@ -24,20 +24,18 @@
 {{#each record}}
 <div class="container">
   <div class="row text-center bg-light mb-2">
-    <div class="col-2">
-    {{#if (isCategorySelected this.category "home-related")}}<i class="fas fa-home fs-1"></i>{{/if}}
-    {{#if (isCategorySelected this.category "transportation")}}<i class="fas fa-shuttle-van fs-1"></i></i>{{/if}}
-    {{#if (isCategorySelected this.category "entertainment")}}<i class="fas fa-grin-beam fs-1"></i>{{/if}}
-    {{#if (isCategorySelected this.category "food")}}<i class="fas fa-utensils fs-1"></i>{{/if}}
-    {{#if (isCategorySelected this.category "other")}}<i class="fas fa-pen fs-1"></i>{{/if}}
+    <div class="col-2 d-flex align-items-center">
+      <i class="{{this.categoryId.icon}}"></i>
     </div>
-    <div class="col-4">
-      <span class="d-block">{{this.name}}</span>
-      <span class="d-block">{{formatDate this.date}}</span>
+    <div class="col-4 d-flex align-items-center">
+      <div class="span-container">
+        <span class="d-block">{{this.name}}</span>
+        <span class="d-block">{{formatDate this.date}}</span>
+      </div>     
     </div>
-    <div class="col-2">
+    <div class="col-2 d-flex align-items-center">
       {{this.amount}}
-      </div>
+    </div>
     <div class="col-2">
       <a href="/records/{{this._id}}/edit" class="btn btn-primary">修改</a>
     </div>

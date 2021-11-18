@@ -37,25 +37,33 @@ const records = [
 const categories = [
   {
     categoryId: 1,
-    name: '家居物業'
+    name: '家居物業',
+    icon: 'fas fa-home fs-1'
   },
   {
     categoryId: 2,
-    name: '交通出行'
+    name: '交通出行',
+    icon: 'fas fa-shuttle-van fs-1'
   },
   {
     categoryId: 3,
-    name: '休閒娛樂'
+    name: '休閒娛樂',
+    icon: 'fas fa-grin-beam fs-1'
   },
   {
     categoryId: 4,
-    name: '餐飲食品'
+    name: '餐飲食品',
+    icon: 'fas fa-utensils fs-1'
   },
   {
     categoryId: 5,
-    name: '其他'
+    name: '其他',
+    icon: 'fas fa-pen fs-1'
   }
 ]
+
+
+
 
 db.once('open', () => {
   console.log('mongodb connected!')
