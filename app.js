@@ -24,7 +24,7 @@ app.engine('hbs', exphbs({
       return dayjs(date).format('YYYY-MM-DD')
     },
     isCategorySelected: function (selectedcategory, category) {
-      return (selectedcategory === category)
+      return (selectedcategory == category)
     }
   }
 }))

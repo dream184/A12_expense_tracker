@@ -10,7 +10,8 @@ router.get('/', (req, res) => {
     餐飲食品: "https://fontawesome.com/icons/utensils?style=solid",
     其他: "https://fontawesome.com/icons/pen?style=solid"
   }
-  Record.find()
+  const userId = res.locals.user._id
+  Record.find({userId: userId})
     .lean()
     .sort({ _id: 'desc' })
     .then(record => {

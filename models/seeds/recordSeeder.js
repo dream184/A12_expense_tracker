@@ -1,6 +1,6 @@
 const db = require('../../config/mongoose')
 const Record = require('../record')
-
+const Category = require('../category')
 const records = [
   {
     name: '早餐',
@@ -34,11 +34,38 @@ const records = [
   }
 ]
 
+const categories = [
+  {
+    categoryId: 1,
+    name: '家居物業'
+  },
+  {
+    categoryId: 2,
+    name: '交通出行'
+  },
+  {
+    categoryId: 3,
+    name: '休閒娛樂'
+  },
+  {
+    categoryId: 4,
+    name: '餐飲食品'
+  },
+  {
+    categoryId: 5,
+    name: '其他'
+  }
+]
+
 db.once('open', () => {
   console.log('mongodb connected!')
   Record.insertMany(records)
     .then(() => {
-      return db.close()
+      Category.insertMany(categories)
+        .then(() => {
+          return db.close()
+        })
+        .catch(error => console.log(error))
     })
   console.log('added restaurants to db')
 })
