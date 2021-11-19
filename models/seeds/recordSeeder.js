@@ -1,79 +1,49 @@
 const db = require('../../config/mongoose')
+const bcrypt = require('bcryptjs')
 const Record = require('../record')
+const User = require('../user')
 const Category = require('../category')
-const records = [
-  {
-    name: '早餐',
-    category: 'food',
-    date: '2021-11-9',
-    amount: '80'
-  },
-  {
-    name: '遊戲片',
-    category: 'entertainment',
-    date: '2021-11-9',
-    amount: '815'
-  },
-  {
-    name: '肥皂',
-    category: 'home-related',
-    date: '2021-11-9',
-    amount: '200'
-  },
-  {
-    name: '補習費',
-    category: 'other',
-    date: '2021-11-9',
-    amount: '5600'
-  },
-  {
-    name: '交通費',
-    category: 'transportation',
-    date: '2021-11-9',
-    amount: ' 60'
-  }
-]
+const records = require('./recordsData.json')
+const categories = require('./categoriesData.json')
 
-const categories = [
-  {
-    categoryId: 1,
-    name: '家居物業',
-    icon: 'fas fa-home fs-1'
-  },
-  {
-    categoryId: 2,
-    name: '交通出行',
-    icon: 'fas fa-shuttle-van fs-1'
-  },
-  {
-    categoryId: 3,
-    name: '休閒娛樂',
-    icon: 'fas fa-grin-beam fs-1'
-  },
-  {
-    categoryId: 4,
-    name: '餐飲食品',
-    icon: 'fas fa-utensils fs-1'
-  },
-  {
-    categoryId: 5,
-    name: '其他',
-    icon: 'fas fa-pen fs-1'
-  }
-]
-
-
-
+const SEED_USER = {
+  name: 'example',
+  email: 'example@example',
+  password: '12345678'
+}
 
 db.once('open', () => {
   console.log('mongodb connected!')
-  Record.insertMany(records)
+  Category.insertMany(categories)
     .then(() => {
-      Category.insertMany(categories)
-        .then(() => {
-          return db.close()
+      bcrypt.genSalt(10)
+      .then(salt => bcrypt.hash(SEED_USER.password, salt))
+      .then(hash => {
+        return User.create({
+          name: SEED_USER.name,
+          email: SEED_USER.email,
+          password: hash
         })
-        .catch(error => console.log(error))
+      })
+      .then((user) => {   
+        for (let i = 0; i < records.length; i++) {
+          const categoryId = records[i].categoryId
+          var userId = user._id
+          Category.findOne({ categoryId })
+            .lean()
+            .then((category) => {
+              Record.create({
+                name: records[i].name,
+                categoryId: category._id,
+                date: records[i].date,
+                amount: records[i].amount,
+                userId: userId
+              })   
+            })
+            .catch(err => console.log(err))
+        }      
+      })
+      .catch(err => console.log(err))
     })
   console.log('added restaurants to db')
 })

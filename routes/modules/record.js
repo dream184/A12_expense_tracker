@@ -5,10 +5,8 @@ const Category = require('../../models/category.js')
 
 router.post('/', (req, res) => {
   const record = req.body
-  console.log(req.body)
   const userId = res.locals.user._id
   record['userId'] = userId
-  console.log(record)
   Record.create(record)
     .then(() => res.redirect('/'))
     .catch(error => console.error(error))
@@ -29,7 +27,6 @@ router.get('/:id/edit', (req, res) => {
               category.isSelected = true
             }
           })
-          console.log(record)
           res.render('edit', { record, categories })
         })
         .catch(error => console.log(error))

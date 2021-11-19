@@ -1,0 +1,34 @@
+[
+  {
+    "name": "早餐",
+    "date": "2021-11-9",
+    "amount": 80,
+    "categoryId": 4
+  },
+  {
+    "name": "遊戲片",
+    "date": "2021-11-9",
+    "amount": 815,
+    "categoryId": 3
+  },
+  {
+    "name": "肥皂",
+    "date": "2021-11-9",
+    "amount": 200,
+    "categoryId": 1
+  },
+  {
+    "name": "補習費",
+    "category": "other",
+    "date": "2021-11-9",
+    "amount": 5600,
+    "categoryId": 5
+  },
+  {
+    "name": "交通費",
+    "category": "transportation",
+    "date": "2021-11-9",
+    "amount": 60,
+    "categoryId": 2
+  }
+]
