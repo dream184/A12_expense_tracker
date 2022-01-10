@@ -68,40 +68,35 @@ router.get('/new', (req, res) => {
     .catch(error => console.log(error))
 })
 
-router.get('/:category', (req, res) => {
-  const type = req.params.category
-  const categoryNumber = {
-    'home-related': 1,
-    'transportation': 2,
-    'entertainment': 3,
-    'food': 4,
-    'other': 5
-  }
-  Category.findOne({ categoryId: categoryNumber[type] })
+router.get('/categories/:categoryId', (req, res) => {
+  const categoryId = req.params.categoryId
+  Category.find()
     .lean()
-    .then(category => {
-      const categoryId = category._id
-      const userId = res.locals.user._id
-      Record.find({ userId, categoryId })
+    .then((categories) => {  
+      Category.findOne({ categoryId })
         .lean()
-        .populate('categoryId')
-        .sort({ _id: 'desc' })
-        .then(record => {
-          const isRecordExist = Boolean(record.length)
-          if (!isRecordExist) {
-            const totalAmount = 0
-            return res.render('index', { totalAmount })
-          }
-          Record.aggregate([{ $match: { categoryId: categoryId } },
-            { $group: { _id: null, amount: { $sum: '$amount' } } }
-          ])
-            .then(records => {
-              const totalAmount = records[0].amount
-              res.render('index', { record, totalAmount })
+        .then(category => {
+          const categoryId = category._id
+          const userId = res.locals.user._id
+          Record.find({ userId, categoryId })
+            .lean()
+            .populate('categoryId')
+            .sort({ _id: 'desc' })
+            .then(record => {
+              const isRecordExist = Boolean(record.length)
+              if (!isRecordExist) {
+                const totalAmount = 0
+                return res.render('index', { totalAmount, categories })
+              }
+              Record.aggregate([{ $match: { categoryId: categoryId, userId: userId } },
+                { $group: { _id: userId, amount: { $sum: '$amount' } } }
+              ])
+                .then(result => {
+                  const totalAmount = result[0].amount
+                  return res.render('index', { record, totalAmount, categories })
+                })
             })
-            .catch(error => console.log(error))
-        })
-        .catch(error => console.log(error))
+        }) 
     }) 
 })
 
