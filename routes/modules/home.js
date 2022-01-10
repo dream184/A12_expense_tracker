@@ -15,7 +15,6 @@ router.get('/', (req, res) => {
         .then((categories) => {
           console.log(categories)
           const isRecordExist = Boolean(record.length)
-          let totalAmount = 0
           if (!isRecordExist) {
             const totalAmount = 0
             return res.render('index', { totalAmount, categories })

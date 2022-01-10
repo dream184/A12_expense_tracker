@@ -2,10 +2,10 @@ const express = require('express')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
-const dayjs = require('dayjs')
 const session = require('express-session')
 const usePassport = require('./config/passport')
 const flash = require('connect-flash')
+const handlebarsHelper = require('./config/handlebar_helper.js')
 
 const app = express()
 const port = 3000
@@ -16,14 +16,7 @@ require('./config/mongoose')
 app.engine('hbs', exphbs({
   defaultLayout: 'main',
   extname: 'hbs',
-  helpers: {
-    formatDate: function (date) {
-      return dayjs(date).format('YYYY/MM/DD')
-    },
-    formatDate2: function (date) {
-      return dayjs(date).format('YYYY-MM-DD')
-    }
-  }
+  helpers: handlebarsHelper
 }))
 app.set('view engine', 'hbs')
 

@@ -4,10 +4,15 @@ const Record = require('../../models/record.js')
 const Category = require('../../models/category.js')
 
 router.post('/', (req, res) => {
-  const record = req.body
+  const { name, date, categoryId, amount } = req.body
   const userId = res.locals.user._id
-  record['userId'] = userId
-  Record.create(record)
+  Record.create({
+    name,
+    date,
+    categoryId,
+    amount,
+    userId
+  })
     .then(() => res.redirect('/'))
     .catch(error => console.error(error))
 })
@@ -22,12 +27,7 @@ router.get('/:id/edit', (req, res) => {
       Category.find()
         .lean()
         .then((categories) => {
-          categories.forEach(category => {
-            if (category.categoryId === record.categoryId.categoryId) {
-              category.isSelected = true
-            }
-          })
-          res.render('edit', { record, categories })
+          return res.render('edit', { record, categories })
         })
         .catch(error => console.log(error))
     })
