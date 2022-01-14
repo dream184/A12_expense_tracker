@@ -12,7 +12,7 @@
       <label for="categoryId" class="form-label">類別:</label>
       <select name="categoryId" class="form-control" id="categoryId">
         <option value="type" disabled selected>類別</option>
-        {{#each allCategories}}
+        {{#each Categories}}
         <option value="{{this._id}}" >{{this.name}}</option>
         {{/each}}
       </select>

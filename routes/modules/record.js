@@ -13,7 +13,9 @@ router.post('/', (req, res) => {
     amount,
     userId
   })
-    .then(() => res.redirect('/'))
+    .then(() => {
+      return res.redirect('/')
+    })
     .catch(error => console.error(error))
 })
 
@@ -38,7 +40,10 @@ router.put('/:id', (req, res) => {
   const id = req.params.id
   const userId = res.locals.user._id
   const { name, date, categoryId, amount } = req.body
-  Record.findOne({ id, userId })
+  Record.findOne({
+    _id: id,
+    userId: userId
+  })
     .then(record => {
       record.name = name
       record.date = date
@@ -46,7 +51,9 @@ router.put('/:id', (req, res) => {
       record.amount = amount
       return record.save()
     })
-    .then(() => res.redirect('/'))
+    .then(() => {
+      res.redirect('/')
+    })
     .catch(error => console.log(error))
 })
 
@@ -62,8 +69,8 @@ router.delete('/:id', (req, res) => {
 router.get('/new', (req, res) => {
   Category.find()
     .lean()
-    .then((allCategories) => {
-      res.render('new', { allCategories })
+    .then((Categories) => {
+      return res.render('new', { Categories })
     })
     .catch(error => console.log(error))
 })

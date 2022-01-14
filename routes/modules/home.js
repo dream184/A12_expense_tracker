@@ -13,7 +13,6 @@ router.get('/', (req, res) => {
       Category.find()
         .lean()
         .then((categories) => {
-          console.log(categories)
           const isRecordExist = Boolean(record.length)
           if (!isRecordExist) {
             const totalAmount = 0

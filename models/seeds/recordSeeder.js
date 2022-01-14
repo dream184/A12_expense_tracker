@@ -14,36 +14,71 @@ const SEED_USER = {
 
 db.once('open', () => {
   console.log('mongodb connected!')
-  Category.insertMany(categories)
-    .then(() => {
-      bcrypt.genSalt(10)
-      .then(salt => bcrypt.hash(SEED_USER.password, salt))
-      .then(hash => {
-        return User.create({
-          name: SEED_USER.name,
-          email: SEED_USER.email,
-          password: hash
-        })
+
+  function generateSalt(params) {
+    return new Promise((resolve, reject) => {
+      bcrypt.genSalt(params, (err, salt) => {
+        return resolve(salt)
       })
-      .then((user) => {   
-        for (let i = 0; i < records.length; i++) {
-          const categoryId = records[i].categoryId
-          var userId = user._id
-          Category.findOne({ categoryId })
-            .lean()
-            .then((category) => {
-              Record.create({
-                name: records[i].name,
-                categoryId: category._id,
-                date: records[i].date,
-                amount: records[i].amount,
-                userId: userId
-              })   
-            })
-            .catch(err => console.log(err))
-        }      
-      })
-      .catch(err => console.log(err))
     })
-  console.log('added restaurants to db')
+  }
+  function generateHash(user, salt) {
+    return new Promise((resolve, reject) => {
+      bcrypt.hash(user.password, salt, (err, hash) => {
+        return resolve(hash)
+      })
+    })
+  }
+
+  function createUser(user, hash) {
+    return new Promise((resolve, reject) => {
+      User.create({
+        name: user.name,
+        email: user.email,
+        password: hash
+      }, (err, user) => {
+        return resolve(user)
+      })
+    })
+  }
+
+  function findCategory(categoryId) {
+    return new Promise((resolve, reject) => {
+      Category.findOne({ categoryId }, (err, category) => {
+        return resolve(category)
+      })
+    })
+  }
+
+  function createRecord(record, user, category) {
+    return new Promise((resolve, reject) => {
+      Record.create({
+        name: record.name,
+        categoryId: category._id,
+        date: record.date,
+        amount: record.amount,
+        userId: user._id
+      }, (err, record) => {
+        return resolve(record)
+      })
+    })
+  }
+
+  async function addSeeds() {
+    try {
+      await Category.insertMany(categories)
+      const salt = await generateSalt(10)
+      const hash = await generateHash(SEED_USER, salt)
+      const user = await createUser(SEED_USER, hash)
+      for (const record of records) {
+        const category = await findCategory(record.categoryId)
+        await createRecord(record, user, category)
+      }
+      console.log('added restaurants to db')
+      process.exit()
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+  addSeeds()
 })
