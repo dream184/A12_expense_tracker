@@ -75,8 +75,8 @@ router.get('/new', (req, res) => {
     .catch(error => console.log(error))
 })
 
-router.get('/categories/:categoryId', (req, res) => {
-  const categoryId = req.params.categoryId
+router.get('/', (req, res) => {
+  const categoryId = req.query.category
   Category.find()
     .lean()
     .then((categories) => {  
@@ -95,7 +95,8 @@ router.get('/categories/:categoryId', (req, res) => {
                 const totalAmount = 0
                 return res.render('index', { totalAmount, categories })
               }
-              Record.aggregate([{ $match: { categoryId: categoryId, userId: userId } },
+              Record.aggregate([
+                { $match: { categoryId: categoryId, userId: userId } },
                 { $group: { _id: userId, amount: { $sum: '$amount' } } }
               ])
                 .then(result => {

@@ -4,8 +4,9 @@
     類別
   </button>
   <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><a class="dropdown-item" href="/">所有類別</a></li>
     {{#each categories}}
-    <li><a class="dropdown-item" href="/records/categories/{{this.categoryId}}">{{this.name}}</a></li>
+    <li><a class="dropdown-item" href="/records?category={{this.categoryId}}">{{this.name}}</a></li>
     {{/each}}
   </ul>
 </div>
