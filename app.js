@@ -6,9 +6,12 @@ const session = require('express-session')
 const usePassport = require('./config/passport')
 const flash = require('connect-flash')
 const handlebarsHelper = require('./config/handlebar_helper.js')
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 const routes = require('./routes')
 
 require('./config/mongoose')
@@ -21,7 +24,7 @@ app.engine('hbs', exphbs({
 app.set('view engine', 'hbs')
 
 app.use(session({
-  secret: 'codingeveryday',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 }))

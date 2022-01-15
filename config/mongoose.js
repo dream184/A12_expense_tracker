@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/expense-tracker')
+mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost/expense-tracker')
 const db = mongoose.connection
 
 db.on('error', () => {
